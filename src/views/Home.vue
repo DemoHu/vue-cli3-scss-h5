@@ -1,18 +1,32 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div class="btn">信息按钮</div>
+    <van-button type="info">信息按钮</van-button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
-  name: "home",
-  components: {
-    HelloWorld
+  name: 'home',
+  data() {
+    return {
+      minHour: 10,
+      maxHour: 20,
+      minDate: new Date(),
+      maxDate: new Date(2019, 10, 1),
+      currentDate: new Date()
+    }
   }
-};
+}
 </script>
+<style lang="scss">
+.home {
+  .btn {
+    width: 1.333333rem;
+    height: .666667rem;
+    background-color: pink;
+    font-size: .213333rem;
+  }
+}
+</style>
+

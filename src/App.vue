@@ -1,29 +1,55 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <router-view v-if="isRouterAkive" @childGetInfo="childGetInfo" />
   </div>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+export default {
+  name: 'App',
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
+  data() {
+    return {
+      isRouterAkive: true
+    }
+  },
+  created() {
+    // this.getUserInfo()
+  },
+  methods: {
+    /**刷新路由
+     * inject: ['reload'],
+     */
+    reload() {
+      this.isRouterAkive = false
+      this.$nextTick(() => {
+        this.isRouterAkive = true
+      })
+    },
+    getUserInfo() {
+      this.$api.getUserInfo().then(res => {
+        this.$store.commit('SET_LOGIN', true) //更新登录状态
+        this.$store.commit('SET_INFO', res) //更新登录状态
+        if (this.$route.path === '/login') {
+          this.$router.push({ path: '/account/accountList' })
+        }
+      }).catch(err => {
+        this.$store.commit('SET_LOGIN', false) //更新登录状态
+        this.$store.commit('SET_INFO', {})
+        this.$router.push({ path: '/login' })
+      })
+    },
+    // 子组件调用父组件方法 this.$emit('childGetInfo', {})
+    childGetInfo(info) {
+      this.getUserInfo()
     }
   }
 }
+</script>
+
+<style lang="scss">
+
 </style>
