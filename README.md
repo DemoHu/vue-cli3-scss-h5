@@ -1,4 +1,4 @@
-# lucky-airship
+# vue-cli3-scss-h5
 
 ## Project setup
 ```
