@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <div class="btn">信息按钮</div>
-    <van-button type="info">信息按钮</van-button>
   </div>
 </template>
 
