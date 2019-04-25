@@ -1,30 +1,238 @@
 <template>
   <div class="home">
-    <div class="btn">信息按钮</div>
+    <my-header :updata-amount="updataAmount"></my-header>
+    <div class="current_box">
+      <div class="current_number">
+        <span class="current_title">期号：</span>
+        <span>{{ currentNumber }}</span>
+      </div>
+      <div class="current_timer">
+        <img src="@/assets/images/current_timer.png" alt="">
+        <span>{{ currentTimer }}</span>
+      </div>
+    </div>
+    <home-tabs-view></home-tabs-view>
+    <div class="tabs_type">
+      <div
+        v-for="(item, index) in tabsType" 
+        :key="index" 
+        :class="{'tabs_active': activeTabs === item.type }"
+        class="type_btn"
+        @click="selectType(item.type)">
+        {{ item.title }}
+      </div>
+    </div>
+    <div class="guessing_box">
+      <guessing-collapse
+        v-for="(item, index) in guessingArr" 
+        :key="index" 
+        :guessing-item="item">
+      </guessing-collapse>
+    </div>
+    <news-notice></news-notice>
+    <div :class="{'show_input': showChip}" class="chip_box">
+      <div class="chip_title">选择下注</div>
+      <div class="chip_type">
+        <div v-for="(item, index) in chipImg" :key="index" class="chip_img" @click="selectChip(item.type)">
+          <img v-if="chipType === item.type" :src="item.active" alt="">
+          <img v-else :src="item.img" alt="">
+          <div v-if="item.type === 100" class="zixuan">{{ autoSelect ? autoSelect : '自选' }}</div>
+        </div>
+      </div>
+    </div>
+    <van-number-keyboard
+      :show="showChip"
+      :transition="false"
+      :hide-on-click-outside="false"
+      close-button-text="确定"
+      @blur="showChip = false"
+      @input="onInput"
+      @delete="onDelete"
+    />
   </div>
 </template>
 
 <script>
+import myHeader from '@/components/header'
+import homeTabsView from '@/components/homeTabsView'
+import guessingCollapse from '@/components/guessingCollapse'
+import newsNotice from '@/components/newsNotice'
+
+import guessingArr from '@/mock/guessingArr'
 export default {
   name: 'home',
+  components: {
+    myHeader,
+    homeTabsView,
+    guessingCollapse,
+    newsNotice
+  },
   data() {
     return {
-      minHour: 10,
-      maxHour: 20,
-      minDate: new Date(),
-      maxDate: new Date(2019, 10, 1),
-      currentDate: new Date()
+      updataAmount: false,
+      currentNumber: '889340',
+      currentTimer: '04:56:01',
+      activeTabs: 1,
+      tabsType: [
+        { type: 1, title: '两面' },
+        { type: 2, title: '名次' },
+        { type: 3, title: '冠亚和值' }
+      ],
+      guessingArr: [],
+      chipImg: [
+        { type: 5, img: require('../assets/images/chip_5.png'), active: require('../assets/images/chip_5_active.png') },
+        { type: 10, img: require('../assets/images/chip_10.png'), active: require('../assets/images/chip_10_active.png') },
+        { type: 100, img: require('../assets/images/chip_zi.png'), active: require('../assets/images/chip_zi_active.png') }
+      ],
+      chipType: 0,
+      autoSelect: '',
+      showChip: false
+    }
+  },
+  created() {
+    this.guessingArr = guessingArr
+  },
+  methods: {
+    /**通知更新资产 */
+    updataAmountFunc() {
+      this.updataAmount = !this.updataAmount
+    },
+    /**选中竞猜类型 */
+    selectType(type) {
+      this.activeTabs = type
+    },
+    /**选择筹码类型 */
+    selectChip(type) {
+      this.chipType = type
+      this.showChip = this.chipType === 100 ? true : false
+      console.log(this.chipType)
+    },
+    /**键盘输入自选筹码 */
+    onInput(value) {
+      if (+this.autoSelect > 100) {
+        this.$toast({
+          message: '只能输入1-1000',
+          position: 'bottom',
+          duration: 1000
+        })
+        return
+      }
+      this.autoSelect = this.autoSelect + value
+    },
+    onDelete() {
+      this.autoSelect = this.autoSelect.substr(0, this.autoSelect.length - 1)
     }
   }
 }
 </script>
 <style lang="scss">
 .home {
-  .btn {
-    width: 1.333333rem;
-    height: .666667rem;
-    background-color: pink;
-    font-size: .213333rem;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: url("../assets/images/main_bg.png") no-repeat;
+  background-size: cover;
+  padding: 5px 10px;
+  .current_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $white;
+    font-size: 14px;
+    padding: 10px 0;
+    .current_number {
+      .current_title {
+        color: #ff98a6;
+      }
+    }
+    .current_timer {
+     display: flex;
+     align-items: center;
+     font-size: 12px;
+     img {
+       margin-right: 4px;
+     }
+    }
+  }
+  .tabs_type {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 14px;
+    .type_btn {
+      width: 108px;
+      height: 42px;
+      line-height: 42px;
+      font-size: 17px;
+      text-align: center;
+      color: #a19eae;
+      padding: 2px;
+      background: url("../assets/images/tabs.png") no-repeat;
+      background-size: 100%;
+      background-position: center;
+    }
+    .tabs_active {
+      color: #ffe9ab;
+      background: url("../assets/images/tabs_active.png") no-repeat;
+    }
+  }
+  .guessing_box {
+    width: 95%;
+    margin:  0 auto;
+    min-height: calc(100% - 275px);
+    border-radius: 5px;
+    padding: 5px;
+    padding-bottom: 10px;
+    background: url("../assets/images/guessing_bg.png") no-repeat;
+    background-size: cover;
+  }
+  .chip_box {
+    width: 100%;
+    height: 48px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: url("../assets/images/chip_box.png") no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation-timing-function: ease-out;
+    .chip_title {
+      font-size: 12px;
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      color: #ffdae1;
+    }
+    .chip_type {
+      width: 60%;
+      margin-top: -20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .chip_img {
+        position: relative;
+        img {
+          width: 60px;
+          height: 60px;
+        }
+        .zixuan {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform:translate(-50%,-100%);
+          color: $white;
+          font-size: 13.5px;
+        }
+      }
+    }
+  }
+  .show_input {
+    // animation: van-slide-up-enter .3s both ease;
+    bottom: 246px;
   }
 }
 </style>

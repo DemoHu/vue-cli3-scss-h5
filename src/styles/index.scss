@@ -1,6 +1,9 @@
 @import './vant-ui.scss';
 // @import url('//at.alicdn.com/t/font_1105901_le4sveb38sk.css');
-
+* {
+  margin: 0;
+  padding: 0;
+}
 body {
   height: 100%;
   -moz-osx-font-smoothing: grayscale;
