@@ -1,3 +1,10 @@
+<!--
+ * @Author: Siwen
+ * @LastEditors: Siwen
+ * @Date: 2019-04-25 17:01:39
+ * @LastEditTime: 2019-04-26 10:50:06
+ * @Description: 首页最新动态
+ -->
 <template>
   <div class="news_notice">
     <div class="title">最新动态</div>

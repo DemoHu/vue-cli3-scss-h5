@@ -1,3 +1,10 @@
+<!--
+ * @Author: Siwen
+ * @LastEditors: Siwen
+ * @Date: 2019-04-25 11:01:14
+ * @LastEditTime: 2019-04-26 10:50:41
+ * @Description: 顶部资产头像
+ -->
 <template>
   <div class="header_banner">
     <div class="header_box">

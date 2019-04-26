@@ -1,3 +1,10 @@
+<!--
+ * @Author: Siwen
+ * @LastEditors: Siwen
+ * @Date: 2019-04-25 13:51:00
+ * @LastEditTime: 2019-04-26 10:53:17
+ * @Description: 首页页面切换卡
+ -->
 <template>
   <div class="home_tabs_view">
     <div v-for="(item, index) in tabs" :key="index" class="tabs_box" @click="routerUrl(item.route)">
@@ -26,6 +33,7 @@ export default {
   methods: {
     routerUrl(url) {
       console.log(url)
+      this.$router.push({ path: url })
     }
   }
 }

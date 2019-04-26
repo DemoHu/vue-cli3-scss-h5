@@ -1,3 +1,10 @@
+<!--
+ * @Author: Siwen
+ * @LastEditors: Siwen
+ * @Date: 2019-04-24 11:08:08
+ * @LastEditTime: 2019-04-26 16:39:01
+ * @Description: 首页
+ -->
 <template>
   <div class="home">
     <my-header :updata-amount="updataAmount"></my-header>
@@ -25,7 +32,8 @@
     <div class="guessing_box">
       <guessing-collapse
         v-for="(item, index) in guessingArr" 
-        :key="index" 
+        :key="index"
+        :active-tabs="activeTabs"
         :guessing-item="item">
       </guessing-collapse>
     </div>
@@ -34,9 +42,9 @@
       <div class="chip_title">选择下注</div>
       <div class="chip_type">
         <div v-for="(item, index) in chipImg" :key="index" class="chip_img" @click="selectChip(item.type)">
-          <img v-if="chipType === item.type" :src="item.active" alt="">
+          <img v-if="chipType === item.type" :src="item.active" class="active_img">
           <img v-else :src="item.img" alt="">
-          <div v-if="item.type === 100" class="zixuan">{{ autoSelect ? autoSelect : '自选' }}</div>
+          <div v-if="item.type === 100" class="zixuan" :class="{'active_img': item.type === 100}">{{ autoSelect ? autoSelect : '自选' }}</div>
         </div>
       </div>
     </div>
@@ -59,6 +67,8 @@ import guessingCollapse from '@/components/guessingCollapse'
 import newsNotice from '@/components/newsNotice'
 
 import guessingArr from '@/mock/guessingArr'
+import liangmian from '@/mock/liangmian'
+import hezhi from '@/mock/hezhi'
 export default {
   name: 'home',
   components: {
@@ -100,9 +110,21 @@ export default {
     /**选中竞猜类型 */
     selectType(type) {
       this.activeTabs = type
+      switch (this.activeTabs) {
+        case 1:
+          this.guessingArr = guessingArr
+          return this.guessingArr
+        case 2:
+          this.guessingArr = liangmian
+          return this.guessingArr
+        case 3:
+          this.guessingArr = hezhi
+          return this.guessingArr
+      }
     },
     /**选择筹码类型 */
     selectChip(type) {
+      this.autoSelect = ''
       this.chipType = type
       this.showChip = this.chipType === 100 ? true : false
       console.log(this.chipType)
@@ -176,12 +198,13 @@ export default {
     .tabs_active {
       color: #ffe9ab;
       background: url("../assets/images/tabs_active.png") no-repeat;
+      background-size: 100%;
+      background-position: center;
     }
   }
   .guessing_box {
     width: 95%;
     margin:  0 auto;
-    min-height: calc(100% - 275px);
     border-radius: 5px;
     padding: 5px;
     padding-bottom: 10px;
@@ -218,6 +241,9 @@ export default {
         img {
           width: 60px;
           height: 60px;
+        }
+        .active_img {
+          transform: scale(1.05);
         }
         .zixuan {
           position: absolute;

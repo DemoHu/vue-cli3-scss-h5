@@ -1,16 +1,23 @@
+<!--
+ * @Author: Siwen
+ * @LastEditors: Siwen
+ * @Date: 2019-04-25 15:31:03
+ * @LastEditTime: 2019-04-26 16:51:32
+ * @Description: 竞猜选项模版
+ -->
 <template>
   <div class="guessing_collapse">
     <div class="title_box" @click="open = !open">
       <div class="title">{{ guessing.name }}</div>
       <van-icon :name="open ? 'arrow-down' : 'arrow-up'" />
     </div>
-    <div v-show="open" class="type_select">
-      <div 
+    <div v-show="open" class="type_select" :class="`type_select_${activeTabs}`">
+      <div
         v-for="(item, index) in guessing.option"
         :key="index" 
         :class="{'dragon_tiger': item.name === '龙' || item.name === '虎'}" 
         class="item_btn"
-        @click="activeItem(item.id, item.number)">
+        @click="activeItem(item.id, guessing.name, item.number)">
         <div class="item_title">{{ item.name }}</div>
         <div class="item_number">{{ item.number }}</div>
       </div>
@@ -26,11 +33,16 @@ export default {
     guessingItem: {
       type: null,
       default: ''
+    },
+    activeTabs: {
+      type: null,
+      default: 1
     }
   },
   data() {
     return {
-      open: true
+      open: true,
+      sd: 1
     }
   },
   computed: {
@@ -38,13 +50,16 @@ export default {
       return this.guessingItem
     }
   },
-  created() {
-    
+  watch: {
+    activeTabs() {
+      this.open = true
+    }
   },
+  created() {},
   methods: {
     /**选中 */
-    activeItem(id, number) {
-      console.log(id, number)
+    activeItem(id, type, number) {
+      console.log(id, type, number)
       console.log('竞猜大类型：', this.guessing.type)
     }
   }
@@ -104,6 +119,24 @@ export default {
       background: url("../../assets/images/tiger.png") no-repeat;
       background-size: 100%;
       background-position: center;
+    }
+  }
+  .type_select_2, .type_select_3 {
+    justify-content: flex-start;
+    .item_btn {
+      width: 23.6%;
+      margin-right: 4px;
+      margin-bottom: 5px;
+      .item_title {
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: #df2272;
+        color: #fefefe;
+        font-size: 13px;
+      }
     }
   }
 }
