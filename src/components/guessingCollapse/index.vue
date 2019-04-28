@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-04-25 15:31:03
- * @LastEditTime: 2019-04-26 16:51:32
+ * @LastEditTime: 2019-04-28 11:47:45
  * @Description: 竞猜选项模版
  -->
 <template>
@@ -22,13 +22,17 @@
         <div class="item_number">{{ item.number }}</div>
       </div>
     </div>
+    <guessing-popup v-if="showPopup" @showPopupFunc="showPopupFunc"></guessing-popup>
   </div>
 </template>
    
 <script>
-   
+import guessingPopup from '@/components/guessingCollapse/popup.vue'
 export default {
   name: 'guessing-collapse',
+  components: {
+    guessingPopup
+  },
   props: {
     guessingItem: {
       type: null,
@@ -41,6 +45,7 @@ export default {
   },
   data() {
     return {
+      showPopup: false,
       open: true,
       sd: 1
     }
@@ -61,6 +66,10 @@ export default {
     activeItem(id, type, number) {
       console.log(id, type, number)
       console.log('竞猜大类型：', this.guessing.type)
+      this.showPopupFunc({ type: true })
+    },
+    showPopupFunc({ type }) {
+      this.showPopup = type
     }
   }
 }

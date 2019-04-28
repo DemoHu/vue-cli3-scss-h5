@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-04-26 16:12:37
- * @LastEditTime: 2019-04-26 18:41:05
+ * @LastEditTime: 2019-04-28 10:31:21
  * @Description: 排行页
  -->
 <template>
@@ -261,7 +261,7 @@ export default {
     padding: 9px 15px;
     .item_class {
       height: 50px;
-      border-bottom: 1px solid #644165;
+      border-bottom: .5px solid #644165;
       display: flex;
       align-items: center;
       .rank_no {
