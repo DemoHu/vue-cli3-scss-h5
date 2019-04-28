@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-04-26 09:57:37
- * @LastEditTime: 2019-04-28 12:20:50
+ * @LastEditTime: 2019-04-28 15:28:07
  * @Description: 竞猜弹窗
  -->
 <template>
@@ -11,7 +11,7 @@
       <div class="close" @click="close"></div>
       <div class="current_timer">
         <div class="timer">
-          <img src="@/assets/images/current_timer.png" alt="">
+          <img src="@/assets/images/current_timer_bai.png" alt="">
           <span>{{ currentTimer }}</span>
         </div>
         <div class="current_number">
@@ -60,11 +60,31 @@
    
 export default {
   name: 'guessing_popup',
+  props: {
+    currentTitle: {
+      type: null,
+      default: ''
+    },
+    currentTimer: {
+      type: null,
+      default: ''
+    },
+    currentNumber: {
+      type: null,
+      default: ''
+    },
+    chipType: {
+      type: null,
+      default: 10
+    },
+    autoSelect: {
+      type: null,
+      default: ''
+    }
+  },
   data() {
     return {
       guessingPopup: true,
-      currentNumber: '889340',
-      currentTimer: '04:56:01',
       selectNumerArr: [
         1, 3, 5, 10, 15, 30, 50, 100
       ],
@@ -74,10 +94,10 @@ export default {
   },
   computed: {
     leftInfo() {
-      return '冠亚和-单-1.78'
+      return this.currentTitle
     },
     rightInfo() {
-      return '550'
+      return this.autoSelect ? this.autoSelect : this.chipType
     },
     currentTotal() {
       return this.$utils.accMul(this.rightInfo, this.buyNumber)
@@ -88,13 +108,13 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('showPopupFunc', { type: false })
+      this.$emit('showPopupFunc', { status: false, close: true })
     },
     selectNumberFunc(amount) {
       this.buyNumber = amount
     },
     confirm() {
-      this.$emit('showPopupFunc', { type: false })
+      this.$emit('showPopupFunc', { status: false })
     }
   }
 }
@@ -131,7 +151,7 @@ export default {
           align-items: center;
           justify-content: center;
           width: 118px;
-          height: 27px;
+          height: 28px;
           background: url("../../assets/images/timer_bg.png") no-repeat;
           background-size: cover;
           img {

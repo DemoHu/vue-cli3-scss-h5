@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-04-24 11:08:08
- * @LastEditTime: 2019-04-26 16:39:01
+ * @LastEditTime: 2019-04-28 15:25:16
  * @Description: 首页
  -->
 <template>
@@ -34,6 +34,10 @@
         v-for="(item, index) in guessingArr" 
         :key="index"
         :active-tabs="activeTabs"
+        :current-number="currentNumber"
+        :current-timer="currentTimer"
+        :chip-type="chipType"
+        :auto-select="autoSelect"
         :guessing-item="item">
       </guessing-collapse>
     </div>
@@ -53,7 +57,7 @@
       :transition="false"
       :hide-on-click-outside="false"
       close-button-text="确定"
-      @blur="showChip = false"
+      @blur="confirmKeyboard"
       @input="onInput"
       @delete="onDelete"
     />
@@ -81,7 +85,7 @@ export default {
     return {
       updataAmount: false,
       currentNumber: '889340',
-      currentTimer: '04:56:01',
+      currentTimer: '04:56:11',
       activeTabs: 1,
       tabsType: [
         { type: 1, title: '两面' },
@@ -94,7 +98,7 @@ export default {
         { type: 10, img: require('../assets/images/chip_10.png'), active: require('../assets/images/chip_10_active.png') },
         { type: 100, img: require('../assets/images/chip_zi.png'), active: require('../assets/images/chip_zi_active.png') }
       ],
-      chipType: 0,
+      chipType: 10, //筹码类型 5-10-100
       autoSelect: '',
       showChip: false
     }
@@ -124,12 +128,20 @@ export default {
     },
     /**选择筹码类型 */
     selectChip(type) {
-      this.autoSelect = ''
       this.chipType = type
+      if (type !== 100) {
+        this.autoSelect = ''
+      }
       this.showChip = this.chipType === 100 ? true : false
-      console.log(this.chipType)
     },
     /**键盘输入自选筹码 */
+    confirmKeyboard() {
+      this.showChip = false
+      if (+this.autoSelect <= 0) {
+        this.chipType = 10
+        this.autoSelect = ''
+      }
+    },
     onInput(value) {
       if (+this.autoSelect > 100) {
         this.$toast({
@@ -239,8 +251,8 @@ export default {
       .chip_img {
         position: relative;
         img {
-          width: 60px;
-          height: 60px;
+          width: 64px;
+          height: 64px;
         }
         .active_img {
           transform: scale(1.05);

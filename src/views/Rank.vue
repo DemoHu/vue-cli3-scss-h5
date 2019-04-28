@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-04-26 16:12:37
- * @LastEditTime: 2019-04-28 10:31:21
+ * @LastEditTime: 2019-04-28 15:52:14
  * @Description: 排行页
  -->
 <template>
@@ -176,7 +176,7 @@ export default {
             }
             .amount {
               font-size: 10px;
-              color: #feda02;
+              color: $textOrderRankColor;
             }
           }
         }
@@ -212,7 +212,7 @@ export default {
             }
             .amount {
               font-size: 10px;
-              color: #feda02;
+              color: $textOrderRankColor;
             }
           }
         }
@@ -248,7 +248,7 @@ export default {
             }
             .amount {
               font-size: 10px;
-              color: #feda02;
+              color: $textOrderRankColor;
             }
           }
         }

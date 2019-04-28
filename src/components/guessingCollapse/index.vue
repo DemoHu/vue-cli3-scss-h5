@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-04-25 15:31:03
- * @LastEditTime: 2019-04-28 11:47:45
+ * @LastEditTime: 2019-04-28 15:28:27
  * @Description: 竞猜选项模版
  -->
 <template>
@@ -17,21 +17,40 @@
         :key="index" 
         :class="{'dragon_tiger': item.name === '龙' || item.name === '虎'}" 
         class="item_btn"
-        @click="activeItem(item.id, guessing.name, item.number)">
+        @click="activeItem(item.id, item.name, guessing.name, item.number)">
         <div class="item_title">{{ item.name }}</div>
         <div class="item_number">{{ item.number }}</div>
       </div>
     </div>
-    <guessing-popup v-if="showPopup" @showPopupFunc="showPopupFunc"></guessing-popup>
+    <guessing-popup
+      v-if="showPopup"
+      :current-title="currentTitle"
+      :current-number="currentNumber"
+      :current-timer="currentTimer"
+      :chip-type="chipType"
+      :auto-select="autoSelect"
+      @showPopupFunc="showPopupFunc">
+    </guessing-popup>
+    <tips-dialog v-if="tipsDialog" title="提示" class="tips_box">
+      <div slot="body">
+        <div class="tips_info">下单成功</div>
+      </div>
+      <div slot="footer" class="dialog_btn">
+        <div class="btn_left" @click="tipsDialog = false">继续下单</div>
+        <router-link to="/order" class="btn_right">查看订单</router-link>
+      </div>
+    </tips-dialog>
   </div>
 </template>
    
 <script>
 import guessingPopup from '@/components/guessingCollapse/popup.vue'
+import tipsDialog from '@/components/dialog'
 export default {
   name: 'guessing-collapse',
   components: {
-    guessingPopup
+    guessingPopup,
+    tipsDialog
   },
   props: {
     guessingItem: {
@@ -41,10 +60,27 @@ export default {
     activeTabs: {
       type: null,
       default: 1
+    },
+    currentTimer: {
+      type: null,
+      default: ''
+    },
+    currentNumber: {
+      type: null,
+      default: ''
+    },
+    chipType: {
+      type: null,
+      default: 10
+    },
+    autoSelect: {
+      type: null,
+      default: ''
     }
   },
   data() {
     return {
+      tipsDialog: false,
       showPopup: false,
       open: true,
       sd: 1
@@ -63,13 +99,16 @@ export default {
   created() {},
   methods: {
     /**选中 */
-    activeItem(id, type, number) {
-      console.log(id, type, number)
-      console.log('竞猜大类型：', this.guessing.type)
-      this.showPopupFunc({ type: true })
+    activeItem(id, itemName, type, number) {
+      this.currentTitle = `${type}-${itemName}-${number}`
+      console.log(this.currentTitle)
+      this.showPopupFunc({ status: true })
     },
-    showPopupFunc({ type }) {
-      this.showPopup = type
+    showPopupFunc({ status, close }) {
+      this.showPopup = status
+      if (!close) {
+        this.tipsDialog = !status
+      }
     }
   }
 }

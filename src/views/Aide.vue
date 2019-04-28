@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-04-26 10:48:59
- * @LastEditTime: 2019-04-26 16:16:45
+ * @LastEditTime: 2019-04-28 16:19:13
  * @Description: 助手页面
  -->
 <template>
@@ -67,6 +67,7 @@ export default {
     /**选中竞猜类型 */
     selectType(type) {
       this.activeTabs = type
+      document.getElementsByClassName('aide_list')[0].scrollTop = 0
       switch (this.activeTabs) {
         case 1:
           this.aideList = aideNo1
@@ -93,7 +94,6 @@ export default {
 .aide_view {
   width: 100%;
   height: 100%;
-  overflow-y: auto;
   background: url("../assets/images/main_bg.png") no-repeat;
   background-size: cover;
   padding: 10px 10px;
@@ -162,12 +162,20 @@ export default {
   }
   .aide_box {
     width: 100%;
+    height: 85%;
     margin:  0 auto;
     border-radius: 5px;
     padding: 5px;
     padding-bottom: 10px;
     background: url("../assets/images/guessing_bg.png") no-repeat;
     background-size: cover;
+    .aide_no {
+       height: 100%;
+    }
+    .aide_list {
+      height: calc(100% - 20px);
+      overflow-y: auto;
+    }
   }
 }
 </style>

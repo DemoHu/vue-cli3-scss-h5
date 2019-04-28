@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-03-21 12:20:52
- * @LastEditTime: 2019-04-24 11:32:51
+ * @LastEditTime: 2019-04-28 14:00:34
  * @Description: axios封装
  */
 
@@ -19,14 +19,12 @@ axios.defaults.baseURL = store.state.api_url
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
-    if (config.method === 'post' && config.url.indexOf('uploadKYC') === -1) {
-      config.data = qs.stringify({
-        ...config.data
-      })
+    config.headers['AHost'] = 'gameCenter'
+    const publicParams = {}
+    if (config.method === 'post') {
+      config.data = qs.stringify(Object.assign(config.data, publicParams))
     } else if (config.method === 'get') {
-      config.params = {
-        ...config.params
-      }
+      config.params = Object.assign(config.params, publicParams)
     }
     return config
   },

@@ -3,13 +3,13 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 // 环境判断
-const TEST_ENV = document.domain === 't-mch.aipaybox.com' || document.domain.includes('localhost')
-const PRE_ENV = document.domain === 'p-mch.aipaybox.com'
+const TEST_ENV = document.domain === 't-center.xyhj.io' || document.domain.includes('localhost')
+const PRE_ENV = document.domain === 'p-center.xyhj.io'
 export default new Vuex.Store({
   state: {
     login: JSON.parse(localStorage.getItem('isLogin')) || false,
     myInfo: JSON.parse(localStorage.getItem('myInfo')) || {},
-    api_url: TEST_ENV ? 'https://t-api.xyhj.io/v1/m/zh' : PRE_ENV ? 'https://p-api.xyhj.io/v1/m/zh' : 'https://api-http.aipaybox.com/v1/m/zh' //接口主地址
+    api_url: TEST_ENV ? 'https://t-api.xyhj.io/v1/w/zh' : PRE_ENV ? 'https://p-api.xyhj.io/v1/w/zh' : 'https://game.xyhj.io/v1/w/zh' //接口主地址
   },
   mutations: {
     SET_LOGIN: (state, obj) => {
