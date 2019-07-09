@@ -2,50 +2,97 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-03-21 12:20:52
- * @LastEditTime: 2019-04-24 11:32:51
+ * @LastEditTime: 2019-07-09 16:41:40
  * @Description: axios封装
  */
 
 import axios from 'axios'
 import qs from 'qs'
 import store from '../store'
-import vueRouter from '../router'
+import { Toast } from 'vant'
 axios.defaults.timeout = 10000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.withCredentials = true //请求携带cookie
 axios.defaults.crossDomain = true //请求携带额外数据(不包含cookie)
 axios.defaults.baseURL = store.state.api_url
 
+const publicParams = {
+  client: 'web',
+  timestamp: Math.floor(new Date().getTime() / 1000),
+  dt: 'N',
+  appName: 'X',
+  lotteryType: '6'
+}
+
+const pending = []
+const CancelToken = axios.CancelToken
+const cancelPending = config => {
+  pending.forEach((item, index) => {
+    if (config) {
+      if (item.UrlPath === config.url) {
+        item.Cancel() //取消请求
+        pending.splice(index, 1) //移除当前请求记录
+      }
+    } else {
+      item.Cancel() //取消请求
+      pending.splice(index, 1) // 移除当前请求记录
+    }
+  })
+}
+//不进行防重处理的接口集合
+const noCancelPending = ['/order/createQuiz']
+
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
-    if (config.method === 'post' && config.url.indexOf('uploadKYC') === -1) {
-      config.data = qs.stringify({
-        ...config.data
+    config.headers['AHost'] = config.url.includes('/user/') ? 'gameCenter' : 'luckyAirShip'
+    // 防止重复请求 ↓↓↓↓
+    if (!noCancelPending.includes(config.url)) {
+      cancelPending(config)
+      config.cancelToken = new CancelToken(res => {
+        pending.push({ 'UrlPath': config.url, 'Cancel': res })
       })
+    }
+    // 防止重复请求 ↑↑↑↑
+    if (config.method === 'post') {
+      config.data = qs.stringify(Object.assign(config.data, publicParams))
     } else if (config.method === 'get') {
-      config.params = {
-        ...config.params
-      }
+      config.params = Object.assign(config.params, publicParams)
     }
     return config
   },
   error => {
-    return Promise.reject(error)
+    if (JSON.stringify(error) !== '{}') {
+      return Promise.reject(error)
+    } else {
+      return new Promise((resolve, reject) => {
+        return error
+      })
+    }
+    // return Promise.reject(error)
   }
 )
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
+    // 防止重复请求 ↓↓↓↓
+    cancelPending(response.config)
+    // 防止重复请求 ↑↑↑↑
     if (!response.data.success) {
-      if (response.data.error.code === '2002') {
-        vueRouter.push({ path: '/login' })
-      }
+      Toast.clear()
+      Toast(response.data.error.message)
     }
     return response
   },
   error => {
-    return Promise.reject(error)
+    if (JSON.stringify(error) !== '{}') {
+      return Promise.reject(error)
+    } else {
+      return new Promise((resolve, reject) => {
+        return error
+      })
+    }
+    // return Promise.reject(error)
   }
 )
 /**

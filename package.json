@@ -1,5 +1,5 @@
 {
-  "name": "lucky-airship",
+  "name": "test-scss-h5",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,9 +11,9 @@
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
     "lib-flexible": "^0.3.2",
-    "vant": "^1.6.15",
-    "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.0",
+    "vant": "^2.0.6",
+    "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },

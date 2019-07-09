@@ -20,13 +20,6 @@ export default {
 }
 </script>
 <style lang="scss">
-.home {
-  .btn {
-    width: 1.333333rem;
-    height: .666667rem;
-    background-color: pink;
-    font-size: .213333rem;
-  }
-}
+
 </style>
 

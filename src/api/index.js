@@ -2,7 +2,7 @@
  * @Author: Siwen
  * @LastEditors: Siwen
  * @Date: 2019-03-21 14:02:10
- * @LastEditTime: 2019-04-24 11:51:01
+ * @LastEditTime: 2019-07-09 16:46:21
  * @Description: 接口中心
  */
 import { post } from './http'
@@ -25,9 +25,16 @@ export default {
   /**获取用户信息 */
   getUserInfo() {
     return new Promise((resolve, reject) => {
-      post('/admin/getUserInfo', {}).then(res => {
+      get('/user/getInfo', {}).then(res => {
         resolve(res)
       }).catch(err => {
+        store.commit('SET_LOGIN', false)
+        store.commit('SET_INFO', {
+          userInfo: {
+            avatar: '',
+            money: '请先登录'
+          }
+        })
         reject(err)
       })
     })

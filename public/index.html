@@ -9,5 +9,27 @@
   </head>
   <body>
     <div id="app"></div>
+    <script src="https://cdn.bootcss.com/vue/2.6.1/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vuex/3.0.1/vuex.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.0.3/vue-router.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
   </body>
 </html>
+<script>
+  window.onload = function() {
+    // 阻止双击放大
+    var lastTouchEnd = 0;
+    document.addEventListener('touchstart', function(event) {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    });
+    document.addEventListener('touchend', function(event) {
+      var now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+  };
+  </script>

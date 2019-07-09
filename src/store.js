@@ -1,7 +1,7 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
+// Vue.use(Vuex)
 // 环境判断
 const TEST_ENV = document.domain === 't-mch.aipaybox.com' || document.domain.includes('localhost')
 const PRE_ENV = document.domain === 'p-mch.aipaybox.com'

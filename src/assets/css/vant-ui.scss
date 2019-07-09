@@ -1,0 +1,70 @@
+//覆盖一些vant-ui样式
+
+.van-loading {
+  .van-loading__spinner,
+  .van-loading__text {
+    color: #fff !important;
+  }
+}
+.van-list__finished-text {
+  color: #fff !important;
+}
+.van-overlay {
+  background-color: rgba(0,0,0,.5) !important;
+}
+.van-toast {
+  background-color: rgba(0,0,0,.7) !important;
+}
+.tips_box {
+  .van-dialog {
+    border-radius: 0;
+  }
+  .tips_dialog_body {
+    margin-top: 20px;
+  }
+  .tips_info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .tips_error {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .dialog_btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .btn_left,.btn_right {
+      width: 106.5px;
+      height: 37.5px;
+      line-height: 37.5px;
+      text-align: center;
+    }
+    .btn_left {
+      color: $white;
+      // @include background-func("../assets/images/tips_right.png");
+    }
+    .btn_right {
+      color: $confirmTextColor;
+      // @include background-func("../assets/images/tips_left.png");
+    }
+  }
+  .dialog_btn_complete {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .btn_right {
+      width: 125px;
+    }
+    .order_btn {
+      position: absolute;
+      right: -10%;
+      bottom: -20%;
+      color: #b9c5ff;
+      font-size: 13px;
+      text-decoration: underline;
+    }
+  }
+}

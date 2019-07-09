@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from '@/App'
 import router from '@/router'
 import store from '@/store'
-import '@/styles/index.scss' // global css
+import '@/assets/css/index.scss' // global css
 import '@/plugins'
 import '@/filters'
 import '@/directive'

@@ -1,8 +1,15 @@
 @import './vant-ui.scss';
 // @import url('//at.alicdn.com/t/font_1105901_le4sveb38sk.css');
-
+* {
+  margin: 0;
+  padding: 0;
+}
 body {
   height: 100%;
+  color: $white;
+  background-image: linear-gradient(96deg, 
+		#465cb6 0%, 
+		#263a89 100%);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -98,4 +105,59 @@ input[type="number"]{
 }
 .app-main {
   min-height: 100%
+}
+.tabs_type {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0 auto;
+  margin-top: 14px;
+  .type_btn {
+    width: 116.5px;
+    height: 38.5px;
+    line-height: 42px;
+    font-size: 15px;
+    text-align: center;
+    color: $tabsBtnTextColor;
+    background-color: $tabsBgColor;
+    position: relative;
+    .badge {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // @include background-func("../assets/images/badge.png");
+      span {
+        color: $white;
+        font-size: 11px;
+        transform:rotate(45deg) translateY(-8px)
+      }
+    }
+  }
+  .tabs_active {
+    color: $tabsBtnTextActiveColor;
+    // @include background-func("../assets/images/tabs_active.png");
+    z-index: 100;
+  }
+  .type_btn {
+    &::before {
+      content:"";
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      width: 1px;
+      height: 38px;
+      // @include background-func("../assets/images/tabs_btn_line.png");
+    }
+  }
+  .type_btn:last-child {
+    &::before {
+      display: none;
+    }
+  }
 }

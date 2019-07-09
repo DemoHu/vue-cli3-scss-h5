@@ -32,6 +32,8 @@ module.exports = {
       "math": "any"
     }],
     "vue/singleline-html-element-content-newline": "off",
+    'vue/no-parsing-error': [2, { "invalid-first-character-of-tag-name": false }],
+    "vue/no-use-v-if-with-v-for": "off",
     "vue/multiline-html-element-content-newline": "off",
     "vue/name-property-casing": [0, "PascalCase"],
     "vue/html-closing-bracket-newline": [0, {

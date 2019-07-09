@@ -37,8 +37,6 @@ export default {
           this.$router.push({ path: '/account/accountList' })
         }
       }).catch(err => {
-        this.$store.commit('SET_LOGIN', false) //更新登录状态
-        this.$store.commit('SET_INFO', {})
         this.$router.push({ path: '/login' })
       })
     },
